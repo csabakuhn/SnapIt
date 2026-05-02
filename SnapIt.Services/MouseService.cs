@@ -146,17 +146,11 @@ public class MouseService : IMouseService
                         isWindowDetected = true;
                     }
                 }
-                else if (ShowWindowsIfNecessary != null && ShowWindowsIfNecessary.Invoke())
+                ShowWindowsIfNecessary?.Invoke();
+                snapAreaInfo = SelectElementWithPoint?.Invoke((int)p.X, (int)p.Y);
+                if (snapAreaInfo?.Screen != null)
                 {
-                }
-                else
-                {
-                    snapAreaInfo = SelectElementWithPoint?.Invoke((int)p.X, (int)p.Y);
-
-                    if (snapAreaInfo?.Screen != null)
-                    {
-                        settingService.LatestActiveScreen = snapAreaInfo.Screen;
-                    }
+                    settingService.LatestActiveScreen = snapAreaInfo.Screen;
                 }
             }
         }
