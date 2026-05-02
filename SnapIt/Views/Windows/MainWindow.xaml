@@ -56,15 +56,6 @@
                     <ui:BreadcrumbBar x:Name="BreadcrumbBar" />
                 </StackPanel>
             </ui:NavigationView.Header>
-            <!--<ui:NavigationView.AutoSuggestBox>
-                <ui:AutoSuggestBox x:Name="AutoSuggestBox" PlaceholderText="Search">
-                    <ui:AutoSuggestBox.Icon>
-                        <ui:IconSourceElement>
-                            <ui:SymbolIconSource Symbol="Search24" />
-                        </ui:IconSourceElement>
-                    </ui:AutoSuggestBox.Icon>
-                </ui:AutoSuggestBox>
-            </ui:NavigationView.AutoSuggestBox>-->
             <ui:NavigationView.ContentOverlay>
                 <Grid>
                     <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
@@ -95,68 +86,6 @@
             <ui:TitleBar.Icon>
                 <ui:ImageIcon Source="pack://application:,,,/Assets/app.ico" />
             </ui:TitleBar.Icon>
-            <ui:TitleBar.Header>
-                <Grid>
-                    <TextBlock
-                        Margin="48,0,0,6"
-                        VerticalAlignment="Bottom"
-                        FontSize="10"
-                        Text="{Binding LicenseText}" />
-                    <ui:Button
-                        Margin="0,-18,12,0"
-                        Padding="8,4"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Appearance="Secondary"
-                        Command="{Binding TrialVersionCommand}"
-                        Content="Trial Version"
-                        FontSize="12"
-                        FontWeight="Light"
-                        ToolTip="Trial Version"
-                        Visibility="{Binding IsTrial, Converter={StaticResource EqualVisibilityConverter}, ConverterParameter={StaticResource TrueValue}}" />
-                </Grid>
-            </ui:TitleBar.Header>
         </ui:TitleBar>
     </Grid>
-
-    <!--
-        <wpfui:Dialog
-            Grid.RowSpan="2"
-            Panel.ZIndex="9"
-            ButtonLeftName="OK"
-            ButtonRightName="{Binding LicenseMessageCloseButtonText}"
-            DialogHeight="215"
-            IsShown="{Binding IsLicenseMessageOpen, Mode=TwoWay}"
-            Visibility="{Binding IsLicenseMessageOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="ButtonRightClick">
-                    <i:InvokeCommandAction Command="{Binding LicenseMessageClosingCommand}" CommandParameter="{StaticResource FalseValue}" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="ButtonLeftClick">
-                    <i:InvokeCommandAction Command="{Binding LicenseMessageClosingCommand}" CommandParameter="{StaticResource TrueValue}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <StackPanel>
-                <TextBlock FontWeight="Medium" Text="Enter License Key" />
-
-                <TextBox
-                    Margin="0,6,0,0"
-                    HorizontalAlignment="Stretch"
-                    Text="{Binding LicenseMessageLicenseText}" />
-
-                <TextBlock
-                    Margin="0,2,0,0"
-                    Foreground="{StaticResource PaletteRedBrush}"
-                    Text="{Binding LicenseMessageErrorText}" />
-            </StackPanel>
-        </wpfui:Dialog>
-
-        <wpfui:Snackbar
-            Title="Activation Successful"
-            Grid.RowSpan="2"
-            Icon="Empty"
-            IsShown="{Binding IsLicenseSuccess, Mode=TwoWay}"
-            Message="Thank you for Purchasing."
-            Timeout="4000" />
-    </Grid>-->
 </ui:FluentWindow>

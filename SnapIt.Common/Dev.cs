@@ -15,8 +15,8 @@ public static class Dev
     public const bool IsActive = true;
     public const bool ShowSnapWindowOnStartup = false;
     public const bool IsTopmostDisabled = true;
-    public const bool SkipLicense = false;
-    public const bool TestTrialEnded = false;
+    public const bool SkipLicense = true;
+    public const bool TestTrialEnded = true;
     public const bool TestInTrial = false;
     public const bool SkipRunAsAdmin = true;
 #else
