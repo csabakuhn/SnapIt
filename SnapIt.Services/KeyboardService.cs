@@ -1,4 +1,3 @@
-﻿using GlobalHotKey;
 using SharpHook;
 using SharpHook.Data;
 using SnapIt.Common;
@@ -23,13 +22,9 @@ public class KeyboardService : IKeyboardService
     public bool IsInitialized { get; private set; }
 
     public event SnappingCancelEvent SnappingCancelled;
-
     public event SnapStartStopEvent SnapStartStop;
-
     public event MoveWindowEvent MoveWindow;
-
     public event GetSnapAreaBoundriesEvent GetSnapAreaBoundries;
-
     public event ChangeLayoutEvent ChangeLayout;
 
     public KeyboardService(
@@ -49,9 +44,7 @@ public class KeyboardService : IKeyboardService
     public async Task InitializeAsync()
     {
         if (IsInitialized)
-        {
             return;
-        }
 
         await settingService.InitializeAsync();
         await winApiService.InitializeAsync();
@@ -108,32 +101,20 @@ public class KeyboardService : IKeyboardService
         IsInitialized = false;
     }
 
-    private void HotkeyService_KeyPressed(object? sender, KeyPressedEventArgs e)
+    private void HotkeyService_KeyPressed(object? sender, HotKeyPressedEventArgs e)
     {
         if (e.HotKey.Equals(hotkeyService.CycleLayoutsHotKey))
-        {
             CycleLayouts();
-        }
         if (e.HotKey.Equals(hotkeyService.StartStopHotKey))
-        {
             StartStopSnapping();
-        }
         if (e.HotKey.Equals(hotkeyService.MoveLeftHotKey))
-        {
             MoveActiveWindowByKeyboard(MoveDirection.Left);
-        }
         if (e.HotKey.Equals(hotkeyService.MoveRightHotKey))
-        {
             MoveActiveWindowByKeyboard(MoveDirection.Right);
-        }
         if (e.HotKey.Equals(hotkeyService.MoveUpHotKey))
-        {
             MoveActiveWindowByKeyboard(MoveDirection.Up);
-        }
         if (e.HotKey.Equals(hotkeyService.MoveDownHotKey))
-        {
             MoveActiveWindowByKeyboard(MoveDirection.Down);
-        }
     }
 
     public void SetSnappingStopped()
@@ -150,9 +131,7 @@ public class KeyboardService : IKeyboardService
     private void StartStopSnapping()
     {
         if (windowsService.DisableIfFullScreen())
-        {
             return;
-        }
 
         SnapStartStop?.Invoke();
     }
@@ -160,9 +139,7 @@ public class KeyboardService : IKeyboardService
     private void CycleLayouts()
     {
         if (windowsService.DisableIfFullScreen())
-        {
             return;
-        }
 
         var snapScreen = settingService.LatestActiveScreen;
         var layoutIndex = settingService.Layouts.IndexOf(snapScreen.Layout);
@@ -176,9 +153,7 @@ public class KeyboardService : IKeyboardService
     private void Esc_KeyDown(object? sender, KeyboardHookEventArgs e)
     {
         if (e.Data.KeyCode == KeyCode.VcEscape)
-        {
             SnappingCancelled?.Invoke();
-        }
     }
 
     private void MoveActiveWindowByKeyboard(MoveDirection direction)
@@ -217,11 +192,8 @@ public class KeyboardService : IKeyboardService
 
     private void HookManager_KeyDown(object? sender, KeyboardHookEventArgs e)
     {
-        //Used for overriding the Windows default hotkeys
-        if (keysDown.Contains(e.Data.KeyCode) == false)
-        {
+        if (!keysDown.Contains(e.Data.KeyCode))
             keysDown.Add(e.Data.KeyCode);
-        }
 
         if (e.Data.KeyCode == KeyCode.VcRight && WIN())
         {
@@ -247,23 +219,13 @@ public class KeyboardService : IKeyboardService
 
     private void HookManager_KeyUp(object? sender, KeyboardHookEventArgs e)
     {
-        //Used for overriding the Windows default hotkeys
         while (keysDown.Contains(e.Data.KeyCode))
-        {
             keysDown.Remove(e.Data.KeyCode);
-        }
     }
 
     private bool WIN()
     {
-        if (keysDown.Contains(KeyCode.VcLeftMeta) ||
-            keysDown.Contains(KeyCode.VcRightMeta))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return keysDown.Contains(KeyCode.VcLeftMeta) ||
+               keysDown.Contains(KeyCode.VcRightMeta);
     }
 }

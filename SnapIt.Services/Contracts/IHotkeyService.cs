@@ -1,4 +1,3 @@
-﻿using GlobalHotKey;
 using SnapIt.Common.Contracts;
 
 namespace SnapIt.Services.Contracts;
@@ -12,7 +11,7 @@ public interface IHotkeyService : IInitialize
     HotKey MoveUpHotKey { get; set; }
     HotKey MoveDownHotKey { get; set; }
 
-    event EventHandler<KeyPressedEventArgs> KeyPressed;
+    event EventHandler<HotKeyPressedEventArgs> KeyPressed;
 
     void RegisterStartStopHotkey();
 }
