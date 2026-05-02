@@ -63,7 +63,7 @@ public class MainWindowViewModel : ViewModelBase
             new NavigationViewItem()
             {
                 Content = "Mouse",
-                Icon = new FontIcon { Glyph = "", FontFamily = new FontFamily("Segoe Fluent Icons") },
+                Icon = new FontIcon { Glyph = "", FontFamily = new FontFamily("Segoe Fluent Icons") },
                 TargetPageType = typeof(MouseSettingsPage)
             },
             new NavigationViewItem("Keyboard", SymbolRegular.Keyboard24, typeof(KeyboardSettingsPage)),
@@ -72,7 +72,7 @@ public class MainWindowViewModel : ViewModelBase
             new NavigationViewItem()
             {
                 Content = "Tutorials",
-                Icon = new FontIcon { Glyph = "", FontFamily = new FontFamily("Segoe Fluent Icons") },
+                Icon = new FontIcon { Glyph = "", FontFamily = new FontFamily("Segoe Fluent Icons") },
                 TargetPageType = typeof(TutorialsPage)
             },
             new NavigationViewItem("Settings", SymbolRegular.Settings24, typeof(SettingsPage)),
@@ -112,11 +112,8 @@ public class MainWindowViewModel : ViewModelBase
 
     public override async Task InitializeAsync(RoutedEventArgs args)
     {
-        if (!Dev.IsActive)
-        {
             var snapManager = App.Services.GetRequiredService<ISnapManager>();
             await snapManager.InitializeAsync();
-        }
 
         await settingService.InitializeAsync();
 

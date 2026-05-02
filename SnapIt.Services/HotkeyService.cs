@@ -1,8 +1,9 @@
+using SnapIt.Services.Contracts;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using SnapIt.Services.Contracts;
 
 namespace SnapIt.Services;
 
@@ -68,20 +69,18 @@ public class HotkeyService : IHotkeyService, IDisposable
 
         Application.Current.Dispatcher.Invoke(() =>
         {
-            // Rejtett üzenetablak létrehozása a WM_HOTKEY fogadásához
-            var helperWindow = new Window
+            // Create hidden message window to receive WM_HOTKEY messages
+            var parameters = new HwndSourceParameters("SnapItHotkeyWindow")
             {
-                Width = 0, Height = 0,
-                WindowStyle = WindowStyle.None,
-                ShowInTaskbar = false,
-                ShowActivated = false
+                WindowStyle = 0x00800000, // WS_OVERLAPPED, nincs AllowsTransparency
+                Width = 0,
+                Height = 0,
+                PositionX = -32000,
+                PositionY = -32000
             };
-            helperWindow.Show();
-            helperWindow.Hide();
-
-            hwnd = new WindowInteropHelper(helperWindow).Handle;
-            hwndSource = HwndSource.FromHwnd(hwnd);
-            hwndSource?.AddHook(WndProc);
+            hwndSource = new HwndSource(parameters);
+            hwnd = hwndSource.Handle;
+            hwndSource.AddHook(WndProc);
         });
 
         RegisterAll();
@@ -127,9 +126,10 @@ public class HotkeyService : IHotkeyService, IDisposable
         var vk = (uint)KeyInterop.VirtualKeyFromKey(hotKey.Key);
         var mod = ToNativeModifiers(hotKey.Modifiers) | MOD_NOREPEAT;
 
-        // Ha már regisztrálva van, előbb töröljük
+        // Unregister first if already registered
         UnregisterHotKey(hwnd, (int)id);
-        RegisterHotKey(hwnd, (int)id, mod, vk);
+        bool success = RegisterHotKey(hwnd, (int)id, mod, vk);
+        Debug.WriteLine($"RegisterHotKey {id}: key={hotKey.Key} vk={vk} mod={mod} hwnd={hwnd} success={success}");
     }
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
