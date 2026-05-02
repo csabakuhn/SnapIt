@@ -1,5 +1,6 @@
 ﻿using SnapIt.Common.Entities;
 using SnapIt.Services.Contracts;
+using Windows.ApplicationModel;
 using WpfScreenHelper;
 
 namespace SnapIt.Services;
@@ -172,56 +173,37 @@ public class SettingService : ISettingService
 
     public async Task<bool> GetStartupTaskStatusAsync()
     {
-        //#if !STANDALONE
-        //        try
-        //        {
-        //            var startupTask = await StartupTask.GetAsync("SnapItStartupTask"); // Pass the task ID you specified in the appxmanifest file
-        //            switch (startupTask.State)
-        //            {
-        //                case StartupTaskState.Disabled:
-        //                case StartupTaskState.DisabledByUser:
-        //                case StartupTaskState.DisabledByPolicy:
-        //                    return false;
-
-        //                case StartupTaskState.Enabled:
-        //                case StartupTaskState.EnabledByPolicy:
-        //                default:
-        //                    return true;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return false;
-        //        }
-        //#endif
-        //#if STANDALONE
+#if STANDALONE
         using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
         {
             return key.GetValue(Constants.AppRegistryKey) != null;
         }
-        //#endif
+#else
+        try
+        {
+            var startupTask = await StartupTask.GetAsync("SnapItStartupTask");
+            switch (startupTask.State)
+            {
+                case StartupTaskState.Disabled:
+                case StartupTaskState.DisabledByUser:
+                case StartupTaskState.DisabledByPolicy:
+                    return false;
+                case StartupTaskState.Enabled:
+                case StartupTaskState.EnabledByPolicy:
+                default:
+                    return true;
+            }
+        }
+        catch
+        {
+            return false;
+        }
+#endif
     }
 
     public async Task SetStartupTaskStatusAsync(bool isActive)
     {
-        //#if !STANDALONE
-        //        try
-        //        {
-        //            var startupTask = await StartupTask.GetAsync("SnapItStartupTask");
-        //            if (isActive)
-        //            {
-        //                await startupTask.RequestEnableAsync();
-        //            }
-        //            else
-        //            {
-        //                startupTask.Disable();
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //        }
-        //#endif
-        //#if STANDALONE
+#if STANDALONE
         using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
         {
             if (isActive)
@@ -233,7 +215,21 @@ public class SettingService : ISettingService
                 key.DeleteValue(Constants.AppRegistryKey, false);
             }
         }
-        //#endif
+#else
+        try
+        {
+            var startupTask = await StartupTask.GetAsync("SnapItStartupTask");
+            if (isActive)
+            {
+                await startupTask.RequestEnableAsync();
+            }
+            else
+            {
+                startupTask.Disable();
+            }
+        }
+        catch { }
+#endif
     }
 
     public void Dispose()
