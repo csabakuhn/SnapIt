@@ -24,6 +24,24 @@ public class SnapAreaTheme : Bindable
     [JsonIgnore]
     public SolidColorBrush BorderBrush { get => borderBrush; set => SetProperty(ref borderBrush, value); }
 
+    [JsonIgnore]
+    public string OverlayColorHex
+    {
+        get => $"#{OverlayColor.R:X2}{OverlayColor.G:X2}{OverlayColor.B:X2}";
+        set
+        {
+            try
+            {
+                if (value?.Length == 7)
+                {
+                    var color = (Color)ColorConverter.ConvertFromString(value);
+                    OverlayColor = Color.FromArgb(255, color.R, color.G, color.B);
+                }
+            }
+            catch { }
+        }
+    }
+
     public Color HighlightColor
     {
         get => highlightColor;
@@ -73,10 +91,10 @@ public class SnapAreaTheme : Bindable
     public SnapAreaTheme()
     {
         HighlightColor = Color.FromArgb(200, 0, 0, 0);
-        OverlayColor = Color.FromArgb(50, 255, 255, 255);
+        OverlayColor = Color.FromArgb(255, 91, 91, 91); // Old Value: Color.FromArgb(255, 255, 255, 255)
         BorderColor = Color.FromArgb(200, 150, 150, 150);
         BorderThickness = 1;
-        Opacity = 0.6;
+        Opacity = 1.0; // Old Value: 0.6
     }
 
     public SnapAreaTheme(

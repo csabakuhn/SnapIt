@@ -129,6 +129,10 @@
                                 Minimum="0"
                                 TickFrequency="0.1"
                                 Value="{Binding Theme.Opacity}" />
+                            <TextBlock Margin="0,0,0,4" Text="Overlay Color (hex)" />
+                            <TextBox
+                                Margin="0,0,0,6"
+                                Text="{Binding Theme.OverlayColorHex, UpdateSourceTrigger=LostFocus}" />
                             <ui:ToggleSwitch
                                 Margin="0,0,0,6"
                                 Content="Show Overlays"
