@@ -174,7 +174,8 @@ public class KeyboardService : IKeyboardService
             if (boundries != null)
             {
                 winApiService.GetWindowMargin(activeWindow, out Rectangle rectmargin);
-                var activeBoundry = boundries.FirstOrDefault(i => i.Contains(rectmargin));
+                var activeBoundry = boundries.FirstOrDefault(i => i.Contains(rectmargin))
+                    ?? boundries.OrderBy(i => FindClosest.GetDistance(i.Center, rectmargin.Center)).First();
                 activeWindow.Dpi = DpiHelper.GetDpiFromPoint(activeBoundry.Left, activeBoundry.Right);
 
                 var newSnapArea = FindClosest.GetClosestRectangle(boundries, activeBoundry, direction);

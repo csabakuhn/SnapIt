@@ -258,10 +258,12 @@ public class SnapManager : ISnapManager
                         Bottom = currentWindow.Boundry.Height - withMargin.Height
                     };
 
-                    rectangle.Left -= systemMargin.Left;
-                    rectangle.Top -= systemMargin.Top;
-                    rectangle.Right += systemMargin.Right;
-                    rectangle.Bottom += systemMargin.Bottom;
+                    rectangle = new Rectangle(
+                        rectangle.Left - systemMargin.Left,
+                        rectangle.Top - systemMargin.Top,
+                        rectangle.Right + systemMargin.Right,
+                        rectangle.Bottom + systemMargin.Bottom,
+                        rectangle.Dpi);
                 }
 
                 if (isLeftClick)

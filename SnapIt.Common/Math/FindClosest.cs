@@ -57,8 +57,8 @@ public class FindClosest
                 break;
         }
 
-        rectangles.Remove(current);
-        rectangleInDirection = directionRectangle.GetCollisions(rectangles);
+        var candidates = rectangles.Where(r => !r.Equals(current)).ToList();
+        rectangleInDirection = directionRectangle.GetCollisions(candidates);
 
         return rectangleInDirection
             .Select(rectangle => new { distance = GetDistance(rectangle.Center, current.Center), rectangle })
@@ -66,7 +66,7 @@ public class FindClosest
             .FirstOrDefault()?.rectangle;
     }
 
-    private static double GetDistance(Point p1, Point p2)
+    public static double GetDistance(Point p1, Point p2)
     {
         return System.Math.Sqrt(System.Math.Pow(p2.X - p1.X, 2) + System.Math.Pow(p2.Y - p1.Y, 2));
     }
