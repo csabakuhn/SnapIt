@@ -243,10 +243,7 @@ public class LayoutPageViewModel : ViewModelBase
 
     private void ApplyChanges()
     {
-        if (!Dev.IsActive)
-        {
             snapManager.Dispose();
             _ = snapManager.InitializeAsync();
-        }
     }
 }
