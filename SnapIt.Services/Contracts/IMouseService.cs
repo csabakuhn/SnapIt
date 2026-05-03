@@ -16,4 +16,6 @@ public interface IMouseService : IInitialize
     event ShowWindowsIfNecessaryEvent ShowWindowsIfNecessary;
 
     event SelectElementWithPointEvent SelectElementWithPoint;
+
+    event HideWindowsEvent HideWindowsTemporary;
 }

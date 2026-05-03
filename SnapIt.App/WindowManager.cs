@@ -43,6 +43,7 @@ public class WindowManager : IWindowManager
         mouseService.HideWindows += MouseService_HideWindows;
         mouseService.ShowWindowsIfNecessary += MouseService_ShowWindowsIfNecessary;
         mouseService.SelectElementWithPoint += MouseService_SelectElementWithPoint;
+        mouseService.HideWindowsTemporary += MouseService_HideWindowsTemporary;
 
         keyboardService.GetSnapAreaBoundries += KeyboardService_GetSnapAreaBoundries;
 
@@ -166,5 +167,10 @@ public class WindowManager : IWindowManager
         snapWindows.ForEach(window => boundries.AddRange(window.SnapAreaBoundries));
 
         return boundries;
+    }
+
+    private void MouseService_HideWindowsTemporary()
+    {
+        Hide();
     }
 }

@@ -24,6 +24,7 @@ public class MouseService : IMouseService
     public bool IsInitialized { get; private set; }
 
     public event HideWindowsEvent HideWindows;
+    public event HideWindowsEvent? HideWindowsTemporary;
 
     public event MoveWindowEvent MoveWindow;
 
@@ -204,6 +205,10 @@ public class MouseService : IMouseService
                 if (e.Data.KeyCode == SharpHook.Data.KeyCode.VcLeftControl || e.Data.KeyCode == SharpHook.Data.KeyCode.VcRightControl)
                 {
                     isHoldingKey = false;
+                    if (isListening && isWindowDetected)
+                    {
+                        HideWindowsTemporary?.Invoke();
+                    }
                 }
 
                 break;
@@ -212,6 +217,10 @@ public class MouseService : IMouseService
                 if (e.Data.KeyCode == SharpHook.Data.KeyCode.VcLeftAlt || e.Data.KeyCode == SharpHook.Data.KeyCode.VcRightAlt)
                 {
                     isHoldingKey = false;
+                    if (isListening && isWindowDetected)
+                    {
+                        HideWindowsTemporary?.Invoke();
+                    }
                 }
 
                 break;
@@ -220,6 +229,10 @@ public class MouseService : IMouseService
                 if (e.Data.KeyCode == SharpHook.Data.KeyCode.VcLeftShift || e.Data.KeyCode == SharpHook.Data.KeyCode.VcRightShift)
                 {
                     isHoldingKey = false;
+                    if (isListening && isWindowDetected)
+                    {
+                        HideWindowsTemporary?.Invoke();
+                    }
                 }
 
                 break;
@@ -228,7 +241,10 @@ public class MouseService : IMouseService
                 if (e.Data.KeyCode == SharpHook.Data.KeyCode.VcLeftMeta || e.Data.KeyCode == SharpHook.Data.KeyCode.VcRightMeta)
                 {
                     isHoldingKey = false;
-
+                    if (isListening && isWindowDetected)
+                    {
+                        HideWindowsTemporary?.Invoke();
+                    }
                     if (holdKeyUsed)
                     {
                         e.SuppressEvent = true;
@@ -252,6 +268,10 @@ public class MouseService : IMouseService
                 if (e.Data.KeyCode == SharpHook.Data.KeyCode.VcLeftControl || e.Data.KeyCode == SharpHook.Data.KeyCode.VcRightControl)
                 {
                     isHoldingKey = true;
+                    if (isListening && isWindowDetected)
+                    {
+                        ShowWindowsIfNecessary?.Invoke();
+                    }
                 }
 
                 break;
@@ -260,6 +280,10 @@ public class MouseService : IMouseService
                 if (e.Data.KeyCode == SharpHook.Data.KeyCode.VcLeftAlt || e.Data.KeyCode == SharpHook.Data.KeyCode.VcRightAlt)
                 {
                     isHoldingKey = true;
+                    if (isListening && isWindowDetected)
+                    {
+                        ShowWindowsIfNecessary?.Invoke();
+                    }
                 }
 
                 break;
@@ -268,6 +292,10 @@ public class MouseService : IMouseService
                 if (e.Data.KeyCode == SharpHook.Data.KeyCode.VcLeftShift || e.Data.KeyCode == SharpHook.Data.KeyCode.VcRightShift)
                 {
                     isHoldingKey = true;
+                    if (isListening && isWindowDetected)
+                    {
+                        ShowWindowsIfNecessary?.Invoke();
+                    }
                 }
 
                 break;
@@ -276,6 +304,10 @@ public class MouseService : IMouseService
                 if (e.Data.KeyCode == SharpHook.Data.KeyCode.VcLeftMeta || e.Data.KeyCode == SharpHook.Data.KeyCode.VcRightMeta)
                 {
                     isHoldingKey = true;
+                    if (isListening && isWindowDetected)
+                    {
+                        ShowWindowsIfNecessary?.Invoke();
+                    }
                 }
 
                 break;
