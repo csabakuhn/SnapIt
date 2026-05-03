@@ -660,6 +660,7 @@ public partial class SnapControl : UserControl
                     Height = rectangle.Height,
                     SnapControl = this,
                     Theme = Theme,
+                    AreaNumber = AreaCount++,
                     AreaPadding = new Thickness(AreaPadding)
                 };
 

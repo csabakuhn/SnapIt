@@ -37,8 +37,13 @@
                                     </ui:MenuItem>
                                 </ContextMenu>
                             </Grid.ContextMenu>
+                            <TextBlock
+                                Margin="12"
+                                FontSize="36"
+                                Foreground="{Binding Path=Theme.BorderBrush, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=White}"
+                                Text="{Binding Path=AreaNumber, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
-
+                        
                         <Grid
                             x:Name="DesignPanel"
                             HorizontalAlignment="Center"

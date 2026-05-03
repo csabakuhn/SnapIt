@@ -72,7 +72,7 @@ public class SnapAreaEditor : Control
         DependencyProperty.Register("SplitVerticallyCommand",
             typeof(IRelayCommand), typeof(SnapAreaEditor), new PropertyMetadata(null));
 
-    private IRelayCommand SplitVerticallyCommand => (IRelayCommand)GetValue(SplitHorizantallyCommandProperty);
+    public IRelayCommand SplitVerticallyCommand => (IRelayCommand)GetValue(SplitHorizantallyCommandProperty);
 
     public static readonly DependencyProperty SplitHorizantallyCommandProperty =
         DependencyProperty.Register("SplitHorizantallyCommand",
@@ -144,5 +144,25 @@ public class SnapAreaEditor : Control
             new Size(
                 ActualWidth == 0 ? Width : ActualWidth,
                 ActualHeight == 0 ? Height : ActualHeight));
+    }
+
+    public int AreaNumber
+    {
+        get => (int)GetValue(AreaNumberProperty) + 1;
+        set => SetValue(AreaNumberProperty, value);
+    }
+
+    public static readonly DependencyProperty AreaNumberProperty
+     = DependencyProperty.Register("AreaNumberProperty", typeof(int), typeof(SnapAreaEditor),
+       new FrameworkPropertyMetadata()
+       {
+           BindsTwoWayByDefault = true,
+           PropertyChangedCallback = new PropertyChangedCallback(AreaNumberPropertyChanged)
+       });
+
+    private static void AreaNumberPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var snapAreaEditor = (SnapAreaEditor)d;
+        snapAreaEditor.AreaNumber = (int)e.NewValue;
     }
 }
