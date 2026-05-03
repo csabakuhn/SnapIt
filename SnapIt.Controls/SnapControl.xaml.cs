@@ -1,9 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using SnapIt.Common.Entities;
+﻿using SnapIt.Common.Entities;
 using SnapIt.Common.Extensions;
 using SnapIt.Common.Graphics;
 using SnapIt.Common.Math.FindRectangle;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Point = System.Windows.Point;
 using Size = System.Windows.Size;
 
@@ -164,6 +165,13 @@ public partial class SnapControl : UserControl
                 foreach (var snapArea in snapAreas)
                 {
                     snapArea.Theme = snapControl.Theme;
+                }
+                var overlayEditors = snapControl.FindChildren<SnapOverlayEditor>();
+                foreach (var overlayEditor in overlayEditors)
+                {
+                    var color = ((SolidColorBrush)overlayEditor.MiniOverlay.Background).Color;
+                    overlayEditor.MiniOverlay.Background = new System.Windows.Media.SolidColorBrush(
+                        System.Windows.Media.Color.FromArgb((byte)(snapControl.Theme.Opacity * 0.75 * 255), color.R, color.G, color.B));
                 }
             }
             else
@@ -445,6 +453,18 @@ public partial class SnapControl : UserControl
         }
 
         AdoptToScreen();
+
+        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() =>
+        {
+            var overlayEditors = this.FindChildren<SnapOverlayEditor>();
+            foreach (var overlayEditor in overlayEditors)
+            {
+                var color = ((System.Windows.Media.SolidColorBrush)overlayEditor.MiniOverlay.Background).Color;
+                overlayEditor.MiniOverlay.Background = new System.Windows.Media.SolidColorBrush(
+                    System.Windows.Media.Color.FromArgb((byte)(Theme.Opacity * 0.75 * 255), color.R, color.G, color.B));
+            }
+        }));
+
     }
 
     private void AdoptToScreen()
