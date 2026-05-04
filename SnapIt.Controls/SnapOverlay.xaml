@@ -31,11 +31,11 @@
             Symbol="ResizeLarge24" />
 
         <TextBlock
-            Margin="2"
+            Margin="12"
             VerticalAlignment="Bottom"
             Panel.ZIndex="99"
-            FontSize="24"
-            Foreground="{Binding Path=Theme.BorderBrush, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=White}"
+            FontSize="36"
+            Foreground="{Binding Theme.BorderBrush, FallbackValue=White}"
             Text="{Binding AreaNumber, Mode=TwoWay}"
             Visibility="{Binding Path=AreaNumberVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>

@@ -91,7 +91,8 @@ public class SnapWindow : Window, IWindow
         var snapControl = new SnapControl
         {
             Theme = settingService.Settings.Theme,
-            Layout = Screen.Layout
+            Layout = Screen.Layout,
+            IsNumberVisible = true
         };
 
         Content = snapControl;
@@ -116,7 +117,6 @@ public class SnapWindow : Window, IWindow
             foreach (var snapArea in snapAreas)
             {
                 var rectangle = snapArea.ScreenSnapArea(Dpi);
-
                 SnapAreaRectangles.Add(snapArea.AreaNumber, rectangle);
                 SnapAreaBoundries.Add(rectangle);
             }
